@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Context
 {
-    public class EfCoreTrainingDbContext : DbContext
+    public class EfCoreDbContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
