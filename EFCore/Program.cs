@@ -8,6 +8,7 @@ Console.WriteLine("Hello, World!");
 
 EfCoreDbContext efCoreDbContext = new();
 Product product = new();
+List<Product> listOfProduct = new();
 
 #region CRUD
 
@@ -97,7 +98,7 @@ if (false)
 
 #region First, FirstOrDefault, Last, LastOrDefault, Single, SingleOrDefault, Count, Max, Min, Any
 
-if (true)
+if (false)
 {
     //Product tablosunda şarta göre eşleşen kayıtlardan ilk kaydı getirir. Eğer kayıt yoksa exception fırlatır
     var usingFirstMethod = await efCoreDbContext.Products.FirstAsync(f => f.Price > 100);
@@ -132,10 +133,32 @@ if (true)
 
     //Any
     bool any = await efCoreDbContext.Products.AnyAsync(a => a.Name.Contains("Product"));
-
-
 }
 
+#endregion
+
+#region Distinct,All,Sum,Average,Contains,StartWith,EndWith
+
+if (true)
+{
+    //Distinct => Eğer birden fazla kayıt varsa o kayıtları tekrarı olmadan getirir
+    listOfProduct = await efCoreDbContext.Products.Distinct().ToListAsync();
+
+    //All => Tüm datalar verilen koşula uygun mu ? Uygunsa True, Değilse False 
+    bool allMethodExampleOne = await efCoreDbContext.Products.AllAsync(a => a.Name == "Umut");
+    bool allMethodExampleTwo = await efCoreDbContext.Products.AllAsync(a => a.Price > 1);
+
+    //Sum => Toplam
+    float sumOfPrice = await efCoreDbContext.Products.SumAsync(a => a.Price);
+
+    //Average => Ortalama 
+    float averageOfPrice = await efCoreDbContext.Products.AverageAsync(a => a.Price);
+
+    //Contains, StartWith,EndWith
+    listOfProduct = await efCoreDbContext.Products.Where(w => w.Name.Contains("P")).ToListAsync();
+    listOfProduct = await efCoreDbContext.Products.Where(w => w.Name.StartsWith("A")).ToListAsync();
+    listOfProduct = await efCoreDbContext.Products.Where(w => w.Name.EndsWith("O")).ToListAsync();
+}
 #endregion
 
 #endregion
